@@ -1,0 +1,30 @@
+{
+  "version": "2",
+  "targets": [
+    {"agent": "agents", "path": ".agents/skills/{category}", "mode": "symlink"}
+  ],
+  "skills": {
+    "pdf": {
+      "source": {
+        "type": "github",
+        "repo": "anthropics/skills",
+        "subpath": "skills/pdf",
+        "ref": "main"
+      },
+      "category": "tools/document"
+    },
+    "skill-creator": {
+      "source": {
+        "type": "github",
+        "repo": "anthropics/skills",
+        "subpath": "skills/skill-creator",
+        "ref": "main"
+      },
+      "category": "tools/meta"
+    },
+    "my-local-skill": {
+      "source": {"type": "local"},
+      "category": "personal/my-projects"
+    }
+  }
+}

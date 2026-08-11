@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Project artifacts
+skills-manage.lock.json
+.vscode/
+.idea/
+
+# Cache (intentionally NOT ignored; cache is per-user, lives outside repo)
+# ~/.sm/cache/
