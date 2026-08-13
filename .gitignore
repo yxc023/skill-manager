@@ -12,3 +12,6 @@ skills-manage.lock.json
 
 # Cache (intentionally NOT ignored; cache is per-user, lives outside repo)
 # ~/.sm/cache/
+
+# Orca / git worktrees
+.worktrees
