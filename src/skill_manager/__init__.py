@@ -1,5 +1,5 @@
 """
-sm — declarative skill manager for AI agents (v0.2.2, rolled back from npx-skills wrapper)
+sm — declarative skill manager for AI agents (v0.2.3 — PyPI release prep)
 
 Layout philosophy: every skill can be placed in any subdirectory via `category`.
 Unlike npx skills (flat `.agents/skills/<name>/`), sm supports categorized layouts
@@ -20,7 +20,7 @@ Physical flow (per skill):
     3. mode=self → just verify
 """
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 
 import argparse
 import hashlib
