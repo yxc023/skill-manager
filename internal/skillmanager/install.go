@@ -35,9 +35,9 @@ func ExpandCacheRoot() (string, error) {
 
 // InstallOpts configures Install.
 type InstallOpts struct {
-	CacheRoot string   // absolute path to cache root, e.g. /Users/x/.skills-manage
-	Verbose   bool     // print actions as they happen
-	HardReset bool     // if true, always re-clone/fetch even if cache exists
+	CacheRoot string // absolute path to cache root, e.g. /Users/x/.skills-manage
+	Verbose   bool   // print actions as they happen
+	HardReset bool   // if true, always re-clone/fetch even if cache exists
 }
 
 // Install resolves and materializes one skill to its targets.

@@ -80,9 +80,9 @@ func TestParseGitURL(t *testing.T) {
 
 func TestSource_FetchURL(t *testing.T) {
 	tests := []struct {
-		name   string
-		source Source
-		want   string
+		name    string
+		source  Source
+		want    string
 		wantErr bool
 	}{
 		{
@@ -142,9 +142,9 @@ func TestSource_FetchURL(t *testing.T) {
 
 func TestSource_CachePath(t *testing.T) {
 	tests := []struct {
-		name   string
-		source Source
-		want   string
+		name    string
+		source  Source
+		want    string
 		wantErr bool
 	}{
 		{

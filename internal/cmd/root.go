@@ -6,7 +6,8 @@ import (
 )
 
 // Version is the skill-manager release version. Overridden at build time via:
-//   go build -ldflags "-X github.com/yxc023/skill-manager/internal/cmd.Version=0.3.0" ./cmd/skill-manager
+//
+//	go build -ldflags "-X github.com/yxc023/skill-manager/internal/cmd.Version=0.3.0" ./cmd/skill-manager
 var Version = "0.3.0"
 
 // rootCmd is the base command invoked when the binary runs without a subcommand.
