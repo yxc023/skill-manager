@@ -1,0 +1,17 @@
+linters:
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - gofmt
+    - goimports
+
+run:
+  timeout: 5m
+  tests: true
+
+linters-settings:
+  goimports:
+    local-prefixes: github.com/yxc023/skill-manager
