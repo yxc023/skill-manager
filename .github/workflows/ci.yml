@@ -29,8 +29,12 @@ jobs:
       - name: Run go vet
         run: go vet ./...
 
-      - name: Run tests with coverage
-        run: go test -race -coverprofile=coverage.out -covermode=atomic ./...
+      - name: Run tests
+        # Note: -race is intentionally omitted here because the race detector
+        # emits binaries that fail to load on Go 1.21/1.22 with current
+        # GitHub Actions macOS runners (dyld: missing LC_UUID load command).
+        # Race coverage is provided by the dedicated race job below.
+        run: go test -coverprofile=coverage.out -covermode=atomic ./...
 
       - name: Upload coverage
         if: matrix.os == 'ubuntu-latest' && matrix.go == '1.23'
@@ -38,6 +42,26 @@ jobs:
         with:
           name: coverage
           path: coverage.out
+
+  race:
+    # The race detector needs Go 1.23+ on Apple Silicon runners; pin it.
+    name: race (go${{ matrix.go }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.23"]
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Download dependencies
+        run: go mod download
+      - name: Run tests with -race
+        run: go test -race ./...
 
   lint:
     name: lint
