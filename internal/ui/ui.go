@@ -18,3 +18,6 @@ func Warn(msg string) string { return fmt.Sprintf("%s %s", warn, msg) }
 
 // Fail prints a red failure.
 func Fail(msg string) string { return fmt.Sprintf("%s %s", fail, msg) }
+
+// Name prints a label for an entity (skill/agent/etc).
+func Name(msg string) string { return msg }
