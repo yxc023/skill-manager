@@ -50,7 +50,8 @@ func ParseGitURL(rawURL string) (host, owner, repo string, err error) {
 	if u.Host == "" {
 		return "", "", "", fmt.Errorf("invalid git URL %q (no host)", rawURL)
 	}
-	return splitPath(u.Host, strings.TrimPrefix(u.Path, "/"), rawURL)
+	// Use Hostname (no port) so that https://host:443/path still extracts host correctly.
+	return splitPath(u.Hostname(), strings.TrimPrefix(u.Path, "/"), rawURL)
 }
 
 func splitPath(host, path, rawURL string) (string, string, string, error) {
@@ -100,23 +101,14 @@ func (s *Source) FetchURL() (string, error) {
 }
 
 // CachePath returns the on-disk cache directory for non-local sources.
-// Format: ~/.skills-manage/<host>/<owner>/<repo>
+// Format: <root>/<host>/<owner>/<repo>
 func (s *Source) CachePath(root string) (string, error) {
 	if s.Type == "local" {
 		return "", fmt.Errorf("local source has no cache path")
 	}
-	_, owner, repo, err := s.Parsed()
+	host, owner, repo, err := s.Parsed()
 	if err != nil {
 		return "", err
-	}
-	host := s.Host
-	if host == "" {
-		switch s.Type {
-		case "github":
-			host = "github.com"
-		case "gitlab":
-			host = "gitlab.com"
-		}
 	}
 	return fmt.Sprintf("%s/%s/%s/%s", root, host, owner, repo), nil
 }
