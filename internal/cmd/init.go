@@ -9,15 +9,6 @@ import (
 	"github.com/yxc023/skill-manager/internal/skillmanager"
 )
 
-const starterManifest = `{
-  "version": 2,
-  "targets": [
-    {"agent": "opencode", "path": ".opencode/skills/{category}", "mode": "symlink"}
-  ],
-  "skills": {}
-}
-`
-
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Create a starter skills-manage.json in the current directory",

@@ -57,36 +57,26 @@ func TestComputeFolderHash_EmptyDir(t *testing.T) {
 
 func TestComputeFolderHash_DeterministicRegardlessOfOrder(t *testing.T) {
 	// Two trees with same content but created in different orders should yield same hash.
-	a := t.TempDir()
-	b := t.TempDir()
-	for _, p := range []struct{ rel, body string }{
-		{"a.txt", "alpha"},
-		{"b.txt", "bravo"},
-		{"c.txt", "charlie"},
-		{"sub/delta.txt", "delta"},
-		{"sub/echo.txt", "echo"},
-	} {
-		require.NoError(t, os.MkdirAll(filepath.Join(a, filepath.Dir(p.rel)), 0o755))
-		require.NoError(t, os.WriteFile(filepath.Join(a, p.rel), []byte(p.body), 0o644))
-	}
-	// Create in reverse
-	for i := len([]struct{ rel, body string }{
-		{"a.txt", "alpha"},
-		{"b.txt", "bravo"},
-		{"c.txt", "charlie"},
-		{"sub/delta.txt", "delta"},
-		{"sub/echo.txt", "echo"},
-	}) - 1; i >= 0; i-- {
-		// (index not used; rebuilding for clarity)
-		_ = i
-		break
-	}
 	type pair struct{ rel, body string }
-	files := []pair{{"a.txt", "alpha"}, {"b.txt", "bravo"}, {"c.txt", "charlie"}, {"sub/delta.txt", "delta"}, {"sub/echo.txt", "echo"}}
+	files := []pair{
+		{"a.txt", "alpha"},
+		{"b.txt", "bravo"},
+		{"c.txt", "charlie"},
+		{"sub/delta.txt", "delta"},
+		{"sub/echo.txt", "echo"},
+	}
+
+	a := t.TempDir()
+	for _, f := range files {
+		require.NoError(t, os.MkdirAll(filepath.Join(a, filepath.Dir(f.rel)), 0o755))
+		require.NoError(t, os.WriteFile(filepath.Join(a, f.rel), []byte(f.body), 0o644))
+	}
+
+	b := t.TempDir()
 	for i := len(files) - 1; i >= 0; i-- {
-		p := files[i]
-		require.NoError(t, os.MkdirAll(filepath.Join(b, filepath.Dir(p.rel)), 0o755))
-		require.NoError(t, os.WriteFile(filepath.Join(b, p.rel), []byte(p.body), 0o644))
+		f := files[i]
+		require.NoError(t, os.MkdirAll(filepath.Join(b, filepath.Dir(f.rel)), 0o755))
+		require.NoError(t, os.WriteFile(filepath.Join(b, f.rel), []byte(f.body), 0o644))
 	}
 
 	hashA, _ := ComputeFolderHash(a)

@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// runCmd executes the binary in-process via Execute() and returns success.
-func runCmd(t *testing.T, args ...string) {
+// runCmdInDir executes the binary in-process with --manifest pointing to <root>/skills-manage.json.
+// We avoid t.Chdir (Go 1.24+) so tests work with go 1.21+. Uses absolute manifest paths via --manifest flag.
+func runCmdInDir(t *testing.T, dir string, args ...string) {
 	t.Helper()
-	// reset rootCmd args between calls (cobra retains state)
-	rootCmd.SetArgs(args)
+	rootCmd.SetArgs(append([]string{"--manifest", filepath.Join(dir, "skills-manage.json")}, args...))
 	if err := Execute(); err != nil {
 		t.Fatalf("execute %v: %v", args, err)
 	}
@@ -22,8 +22,7 @@ func runCmd(t *testing.T, args ...string) {
 
 func TestIntegration_InitCreatesManifest(t *testing.T) {
 	dir := t.TempDir()
-	t.Chdir(dir)
-	runCmd(t, "init")
+	runCmdInDir(t, dir, "init")
 
 	data, err := os.ReadFile(filepath.Join(dir, "skills-manage.json"))
 	require.NoError(t, err)
@@ -36,24 +35,23 @@ func TestIntegration_InitCreatesManifest(t *testing.T) {
 
 func TestIntegration_ValidateOnEmptyManifest(t *testing.T) {
 	dir := t.TempDir()
-	t.Chdir(dir)
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "skills-manage.json"), []byte(`{
+	manifest := filepath.Join(dir, "skills-manage.json")
+	require.NoError(t, os.WriteFile(manifest, []byte(`{
 		"version": 2,
 		"targets": [{"agent": "x", "path": "/p/{category}"}],
 		"skills": {}
 	}`), 0o644))
 
-	runCmd(t, "validate")
+	runCmdInDir(t, dir, "validate")
 }
 
 func TestIntegration_LockInitializesIfMissing(t *testing.T) {
 	dir := t.TempDir()
-	t.Chdir(dir)
-	runCmd(t, "init")
+	runCmdInDir(t, dir, "init")
 
 	// lock should not crash when no lock file exists yet — that's the whole point.
 	// We don't create a file on read; this verifies graceful handling.
-	runCmd(t, "lock")
+	runCmdInDir(t, dir, "lock")
 
 	_, err := os.Stat(filepath.Join(dir, "skills-manage.lock.json"))
 	assert.True(t, os.IsNotExist(err), "lock cmd should not create a file when only reading")
@@ -61,14 +59,13 @@ func TestIntegration_LockInitializesIfMissing(t *testing.T) {
 
 func TestIntegration_ListPrintsHeaders(t *testing.T) {
 	dir := t.TempDir()
-	t.Chdir(dir)
-	runCmd(t, "init")
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "skills-manage.json"), []byte(`{
+	manifest := filepath.Join(dir, "skills-manage.json")
+	require.NoError(t, os.WriteFile(manifest, []byte(`{
 		"version": 2,
 		"targets": [{"agent": "x", "path": "/p/{category}"}],
 		"skills": {"foo": {"source": {"type": "local", "path": "/tmp/some-skill"}}}
 	}`), 0o644))
 
 	// just ensure list doesn't crash with a real skill entry
-	runCmd(t, "list")
+	runCmdInDir(t, dir, "list")
 }
