@@ -1,17 +1,25 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-build/
-dist/
+# Binaries
+bin/
+*.exe
+*.test
+*.out
 
-# Project artifacts
-skills-manage.lock.json
+# Coverage
+coverage.out
+coverage.html
+
+# IDE
 .vscode/
 .idea/
 
+# Go
+vendor/
+
 # Cache (intentionally NOT ignored; cache is per-user, lives outside repo)
-# ~/.sm/cache/
+# ~/.skills-manage/
 
 # Orca / git worktrees
 .worktrees
+
+# Lock file (per-project)
+skills-manage.lock.json
