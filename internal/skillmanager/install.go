@@ -69,6 +69,9 @@ func Install(name string, sd *SkillDef, targets []Target, opts InstallOpts) ([]I
 		if info, statErr := os.Stat(skillDir); statErr != nil || !info.IsDir() {
 			return nil, fmt.Errorf("skill %q local path is not a directory: %s", name, skillDir)
 		}
+		if _, err := os.Stat(filepath.Join(skillDir, "SKILL.md")); err != nil {
+			return nil, fmt.Errorf("skill %q local path missing SKILL.md: %s", name, skillDir)
+		}
 		hash, err = ComputeFolderHash(skillDir)
 		if err != nil {
 			return nil, fmt.Errorf("skill %q hash: %w", name, err)
@@ -87,7 +90,7 @@ func Install(name string, sd *SkillDef, targets []Target, opts InstallOpts) ([]I
 		if cerr != nil {
 			return nil, fmt.Errorf("skill %q cache path: %w", name, cerr)
 		}
-		g := newGitRunner(opts.Verbose)
+		g := NewGitRunner(opts.Verbose)
 		if opts.HardReset {
 			// Force fresh clone
 			_ = os.RemoveAll(cacheDir)
@@ -121,7 +124,8 @@ func Install(name string, sd *SkillDef, targets []Target, opts InstallOpts) ([]I
 		mode := t.effectiveMode()
 
 		// smart-skip: if local source's resolved dir == resolved dest, no-op.
-		if sd.Source.Type == "local" {
+		// Only applies to symlink/copy modes — self mode should still verify.
+		if sd.Source.Type == "local" && mode != ModeSelf {
 			absSkill, _ := filepath.Abs(skillDir)
 			if absSkill == dest {
 				results = append(results, InstallResult{
