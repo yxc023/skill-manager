@@ -8,8 +8,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - **BREAKING:** Complete rewrite from Python to Go. Binary renamed from `sm` to `skill-manager`.
 - **BREAKING:** Cache directory renamed from `~/.sm/cache/` to `~/.skills-manage/`. No migration path.
-- Manifest JSON format (`skills-manage.json` v2) is unchanged — existing files work as-is.
-- Lock file format (`skills-manage.lock.json`) is unchanged.
+- **BREAKING:** Manifest `version` field is now integer `2` (was string `"2"` in Python). One-character fix per existing manifest.
+- **BREAKING:** Lock file format (`skills-manage.lock.json`) simplified — only `source`, `category`, `skillFolderHash` are written. Removed (still read-tolerated): `sourceType`, `sourceUrl`, `ref`, `skillPath`, `installedAt`, `updatedAt`, `localPath`.
 
 ### Added
 - Cobra-based CLI with 9 subcommands: `init`, `install`, `validate`, `verify`, `list`, `outdated`, `update`, `clean`, `lock`.
@@ -19,7 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 - Three install modes: `symlink` (default), `copy`, `self`.
 - Smart-skip for local sources when target resolves to source path.
 - Test suite: 27 tests across `internal/skillmanager` and `internal/cmd`.
-- GitHub Actions CI matrix: Go 1.21 / 1.22 / 1.23 × ubuntu-latest / macos-latest.
+- GitHub Actions CI matrix: Go 1.23 / 1.24 × ubuntu-latest / macos-latest (dropped 1.21/1.22 — see `.github/workflows/ci.yml` for rationale).
 - `golangci-lint` config (errcheck, govet, ineffassign, staticcheck, unused, gofmt, goimports).
 - Makefile: `test`, `lint`, `build`, `install`, `tidy`, `clean` with `-ldflags` version injection.
 

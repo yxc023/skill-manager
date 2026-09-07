@@ -109,7 +109,7 @@ skill-manager verify
 skill-manager init          Create a starter skills-manage.json
 skill-manager install       Clone/fetch + link/copy + write lock
 skill-manager install -v    Verbose: print shell commands
-skill-manager update        Alias for `install --hard-reset` (force fresh clones)
+skill-manager update        Alias for `install --update` (force fresh clones)
 skill-manager validate      Check manifest schema, sources, target paths
 skill-manager verify        Check SKILL.md + hash + target existence
 skill-manager list          Tabular view: name, category, enabled, source, hash
@@ -151,7 +151,14 @@ MIT — see [`LICENSE`](LICENSE).
 
 ## Migration from Python `sm` (v0.2.2)
 
-The manifest and lock JSON formats are identical, so existing
-`skills-manage.json` files work unchanged. The cache directory has been
-renamed: `~/.sm/cache/` (Python) → `~/.skills-manage/` (Go). The Python
-binary was `sm`; this is `skill-manager`.
+Manifest schema is wire-compatible except for one field: `version` is now
+integer `2` (was string `"2"`). Search-and-replace `"version": "2"` →
+`"version": 2` in any existing `skills-manage.json`.
+
+Lock file is **not** wire-compatible — Go writes only `source`, `category`,
+`skillFolderHash`. Old Python lock files with `installedAt`/`updatedAt`/
+`sourceType`/etc. will still load (extras are ignored), but the next `install`
+will rewrite the file in the new minimal format.
+
+Other breaking items: cache directory renamed `~/.sm/cache/` (Python) →
+`~/.skills-manage/` (Go); Python binary `sm` → `skill-manager`.

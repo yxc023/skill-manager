@@ -1,7 +1,7 @@
 {
-  "version": "2",
+  "version": 2,
   "targets": [
-    {"agent": "agents", "path": ".agents/skills/{category}", "mode": "symlink"}
+    {"agent": "opencode", "path": ".opencode/skills/{category}", "mode": "symlink"}
   ],
   "skills": {
     "pdf": {
@@ -23,7 +23,7 @@
       "category": "tools/meta"
     },
     "my-local-skill": {
-      "source": {"type": "local"},
+      "source": {"type": "local", "path": "~/work/my-local-skill"},
       "category": "personal/my-projects"
     }
   }

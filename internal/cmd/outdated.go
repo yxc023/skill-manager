@@ -12,7 +12,7 @@ import (
 
 var outdatedCmd = &cobra.Command{
 	Use:   "outdated",
-	Short: "Show which skills have new commits upstream (compared to locked HEAD)",
+	Short: "Show which skills have new commits upstream (compares cache HEAD to remote ref)",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		manifestPath, _ := cmd.Flags().GetString("manifest")
 		verbose, _ := cmd.Flags().GetBool("verbose")
