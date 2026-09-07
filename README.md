@@ -133,6 +133,51 @@ make build      # go build -ldflags "-X ...Version=$(git describe)" -o bin/skill
 make install    # go install
 ```
 
+## Releases
+
+Versions are derived automatically from Conventional Commits via
+[release-please](https://github.com/googleapis/release-please). There is no
+manual version bump step.
+
+**Commit message format** (enforced by the Release PR bot, not CI):
+
+```
+<type>(<scope>): <description>
+
+<body>
+
+<footer>
+```
+
+| Type       | SemVer effect | Lands in CHANGELOG section |
+|------------|---------------|----------------------------|
+| `feat`     | minor bump    | Added                      |
+| `fix`      | patch bump    | Fixed                      |
+| `perf`     | patch bump    | Changed                    |
+| `refactor` | patch bump    | Changed                    |
+| `revert`   | patch bump    | Removed                    |
+| `feat!` / `BREAKING CHANGE:` footer | major bump | Removed + Added |
+| `docs`     | no bump       | Documentation              |
+| `test`     | no bump       | Testing                    |
+| `build`    | no bump       | Build                      |
+| `ci`       | no bump       | CI                         |
+| `chore`    | no bump       | hidden                     |
+| `style`    | no bump       | hidden                     |
+
+**Release flow:**
+
+1. Merge a PR (or push to `main`) with Conventional Commits since the last tag.
+2. release-please opens/updates a **Release PR** that bumps `CHANGELOG.md` and
+   pins the next version (e.g. `0.3.0 → 0.4.0` for `feat`).
+3. Merging the Release PR pushes a `vX.Y.Z` tag, which triggers
+   `.github/workflows/release.yml` to build binaries for linux/darwin ×
+   amd64/arm64 (+windows-amd64), publish a GitHub release, and attach
+   `checksums.txt`.
+
+The version constant injected at build time lives in
+[`internal/cmd/root.go`](internal/cmd/root.go); the Makefile's `make build`
+already calls `git describe` to pull from the latest tag.
+
 ## Architecture
 
 ```

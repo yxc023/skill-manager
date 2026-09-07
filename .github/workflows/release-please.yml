@@ -1,0 +1,26 @@
+name: release-please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use squash-style commit messages on the Release PR.
+          # release-please will derive the next version from Conventional Commits
+          # since the last release tag, regenerate CHANGELOG.md, and open a PR.
+          # Merging that PR triggers .github/workflows/release.yml to actually build
+          # + upload binaries + create the GitHub release.

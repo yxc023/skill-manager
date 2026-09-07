@@ -1,0 +1,27 @@
+{
+  "packages": {
+    ".": {
+      "packageName": "skill-manager",
+      "releaseType": "go",
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "draft": false,
+      "includeComponentInTag": false,
+      "changelogPath": "CHANGELOG.md",
+      "changelogSections": [
+        {"type": "feat", "section": "Added", "hidden": false},
+        {"type": "fix", "section": "Fixed", "hidden": false},
+        {"type": "perf", "section": "Changed", "hidden": false},
+        {"type": "revert", "section": "Removed", "hidden": false},
+        {"type": "docs", "section": "Documentation", "hidden": false},
+        {"type": "style", "section": "Changed", "hidden": true},
+        {"type": "chore", "section": "Changed", "hidden": true},
+        {"type": "refactor", "section": "Changed", "hidden": false},
+        {"type": "test", "section": "Testing", "hidden": false},
+        {"type": "build", "section": "Build", "hidden": false},
+        {"type": "ci", "section": "CI", "hidden": false}
+      ],
+      "version": "0.3.0"
+    }
+  }
+}
