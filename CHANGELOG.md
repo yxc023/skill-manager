@@ -3,6 +3,20 @@
 All notable changes to `skill-manager` are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.1](https://github.com/yxc023/skill-manager/compare/skill-manager-v0.3.0...skill-manager-v0.3.1) (2026-09-08)
+
+
+### Fixed
+
+* **release:** pin bootstrap-sha so v0.3.0's Go rewrite isn't reattributed ([22eb20b](https://github.com/yxc023/skill-manager/commit/22eb20b5430f39a3a2c64a806c9f945abe3fd9e5))
+* **release:** use kebab-case keys in release-please-config.json ([0b2f18d](https://github.com/yxc023/skill-manager/commit/0b2f18deac5e996afe43fc86ff051cd4845f24de))
+
+
+### Documentation
+
+* add skill-manage-skill — dogfooding the CLI to document itself ([79bcfb2](https://github.com/yxc023/skill-manager/commit/79bcfb27d1fc94afeab389a850cf91d147de7626))
+* align post-release notes with actual Go implementation ([4f7ee91](https://github.com/yxc023/skill-manager/commit/4f7ee91281f4b2a7c394b58c19471c049df6cf32))
+
 ## [0.3.0] — 2026-09-01
 
 ### Changed
