@@ -3,8 +3,17 @@ name: release
 on:
   push:
     tags:
-      # DEBUG: literal match for the only tag we have
-      - 'skill-manager-v0.3.1'
+      # release-please tags as `<component>-vX.Y.Z` by default
+      # (skill-manager-v0.3.1). Match with a glob. If release-please is
+      # reconfigured to drop the component prefix, change this to v*.*.*.
+      #
+      # NB: GitHub evaluates this trigger against the workflow file AT THE
+      # TAG'S COMMIT, not at HEAD — so the commit release-please tags must
+      # already contain this trigger. release-please tags the merge commit
+      # of its Release PR, which IS on main at the time of merge, so
+      # post-merge triggers are automatic. Manual re-tags (e.g. to recover
+      # from a deleted tag) must point at a commit with this pattern.
+      - 'skill-manager-v*'
   workflow_dispatch:
     inputs:
       version:
