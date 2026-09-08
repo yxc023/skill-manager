@@ -3,6 +3,21 @@
 All notable changes to `skill-manager` are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.2](https://github.com/yxc023/skill-manager/compare/skill-manager-v0.3.1...skill-manager-v0.3.2) (2026-09-08)
+
+
+### Fixed
+
+* **release:** broaden tag pattern — use '*v*.*.*' so it matches both 'skill-manager-v0.3.1' and any future 'vX.Y.Z' ([9553c86](https://github.com/yxc023/skill-manager/commit/9553c86b1a1fd883d3c08aecad99480b58cf8a84))
+* **release:** flatten downloaded artifacts so sha256sum gets files ([8da5bd3](https://github.com/yxc023/skill-manager/commit/8da5bd3cfa6f4eed8d31b0ee29fd3032bd8aad5a))
+* **release:** simplify tag pattern to 'skill-manager-v*' ([332b885](https://github.com/yxc023/skill-manager/commit/332b885d6f1a23efbd2b57dc08429179a699d1ca))
+* **release:** trigger on skill-manager-v*.*.* + add workflow_dispatch ([9534eeb](https://github.com/yxc023/skill-manager/commit/9534eeb43bb159ef76a1f89d74ab62cb56fcff4d))
+
+
+### Testing
+
+* **ci:** add a minimal tag-trigger workflow to debug tag pushes ([d9ad322](https://github.com/yxc023/skill-manager/commit/d9ad322604ab1ad44796a6a068f0c09057cbbfdc))
+
 ## [0.3.1](https://github.com/yxc023/skill-manager/compare/skill-manager-v0.3.0...skill-manager-v0.3.1) (2026-09-08)
 
 
