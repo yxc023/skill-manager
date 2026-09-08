@@ -4,9 +4,10 @@ on:
   push:
     tags:
       # release-please tags as `<component>-vX.Y.Z` by default
-      # (skill-manager-v0.3.1). Match that exact pattern. If you switch
-      # release-please to drop the component prefix, change this to v*.*.*.
-      - 'skill-manager-v*.*.*'
+      # (skill-manager-v0.3.1). Match anything starting with `v` and
+      # containing dots (covers `skill-manager-v0.3.1` and the hypothetical
+      # `v0.3.1` if release-please is reconfigured later).
+      - '*v*.*.*'
   workflow_dispatch:
     inputs:
       version:
