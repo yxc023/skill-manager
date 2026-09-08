@@ -4,10 +4,10 @@ on:
   push:
     tags:
       # release-please tags as `<component>-vX.Y.Z` by default
-      # (skill-manager-v0.3.1). Match anything starting with `v` and
-      # containing dots (covers `skill-manager-v0.3.1` and the hypothetical
-      # `v0.3.1` if release-please is reconfigured later).
-      - '*v*.*.*'
+      # (skill-manager-v0.3.1). Match via fnmatch glob. The trailing
+      # '**' is the pattern's "match anything" segment; the two `*`
+      # between dots are literal "any characters including dots".
+      - 'skill-manager-v*'
   workflow_dispatch:
     inputs:
       version:
