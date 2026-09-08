@@ -3,6 +3,25 @@
 All notable changes to `skill-manager` are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.4.0](https://github.com/yxc023/skill-manager/compare/skill-manager-v0.3.0...skill-manager-v0.4.0) (2026-09-08)
+
+
+### Added
+
+* skill-manager v0.3.0 — Go rewrite ([#1](https://github.com/yxc023/skill-manager/issues/1)) ([7b20490](https://github.com/yxc023/skill-manager/commit/7b20490b9ac8f5bdf1683af72b1658ec5052f503))
+* sm v0.2.2 — declarative skill manager for AI agents ([f0c3aba](https://github.com/yxc023/skill-manager/commit/f0c3abab6a3a3947bcce06a02b11b0c3af0c8a7e))
+
+
+### Fixed
+
+* **release:** use kebab-case keys in release-please-config.json ([0b2f18d](https://github.com/yxc023/skill-manager/commit/0b2f18deac5e996afe43fc86ff051cd4845f24de))
+
+
+### Documentation
+
+* add skill-manage-skill — dogfooding the CLI to document itself ([79bcfb2](https://github.com/yxc023/skill-manager/commit/79bcfb27d1fc94afeab389a850cf91d147de7626))
+* align post-release notes with actual Go implementation ([4f7ee91](https://github.com/yxc023/skill-manager/commit/4f7ee91281f4b2a7c394b58c19471c049df6cf32))
+
 ## [0.3.0] — 2026-09-01
 
 ### Changed
