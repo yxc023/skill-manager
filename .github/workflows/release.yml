@@ -93,21 +93,21 @@ jobs:
           name: ${{ github.event_name == 'workflow_dispatch' && format('skill-manager-v{0}', inputs.version) || github.ref_name }}
           tag_name: ${{ github.event_name == 'workflow_dispatch' && format('skill-manager-v{0}', inputs.version) || github.ref_name }}
           generate_release_notes: false
-          # Pull in release-please's CHANGELOG section for this tag as the body.
-          # Falls back to a minimal message if no body is attached.
+          # Same conditional for the body — tag pushes use the real ref, dispatch
+          # dispatches synthesize the tag from the version input.
           body: |
             ## Installation
 
             ```bash
             # macOS (Apple Silicon)
-            curl -L https://github.com/yxc023/skill-manager/releases/download/${{ github.ref_name }}/skill-manager-darwin-arm64 -o skill-manager
+            curl -L https://github.com/yxc023/skill-manager/releases/download/${{ github.event_name == 'workflow_dispatch' && format('skill-manager-v{0}', inputs.version) || github.ref_name }}/skill-manager-darwin-arm64 -o skill-manager
             chmod +x skill-manager
             ./skill-manager --version
 
             # macOS (Intel) / Linux: swap the asset name to darwin-amd64 or linux-amd64.
             ```
 
-            See [CHANGELOG.md](https://github.com/yxc023/skill-manager/blob/${{ github.ref_name }}/CHANGELOG.md) for what changed.
+            See [CHANGELOG.md](https://github.com/yxc023/skill-manager/blob/${{ github.event_name == 'workflow_dispatch' && format('skill-manager-v{0}', inputs.version) || github.ref_name }}/CHANGELOG.md) for what changed.
 
             ## Verification
 
