@@ -2,8 +2,17 @@ name: release
 
 on:
   push:
-    tags: ["v*.*.*"]
+    tags:
+      # release-please tags as `<component>-vX.Y.Z` by default
+      # (skill-manager-v0.3.1). Match that exact pattern. If you switch
+      # release-please to drop the component prefix, change this to v*.*.*.
+      - 'skill-manager-v*.*.*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 0.3.1) — used for ldflags + release tag.'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -37,12 +46,14 @@ jobs:
           GOOS: ${{ matrix.target.goos }}
           GOARCH: ${{ matrix.target.goarch }}
           CGO_ENABLED: "0"
-          # Strip leading "v" from tag (v0.3.0 → 0.3.0) for ldflags injection.
-          VERSION: ${{ github.ref_name }}
+          # For tag pushes: strip leading "v" and the optional "skill-manager-"
+          # component prefix (v0.3.0 → 0.3.0, skill-manager-v0.3.1 → 0.3.1).
+          # For workflow_dispatch: VERSION input is the bare version string.
+          VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
         run: >-
           go build
           -trimpath
-          -ldflags "-s -w -X github.com/yxc023/skill-manager/internal/cmd.Version=${VERSION#v}"
+          -ldflags "-s -w -X github.com/yxc023/skill-manager/internal/cmd.Version=${VERSION#skill-manager-v}"
           -o skill-manager-${{ matrix.target.os }}-${{ matrix.target.arch }}${{ matrix.target.ext }}
           ./cmd/skill-manager
 
@@ -70,7 +81,9 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ github.ref_name }}
+          # For tag pushes: name from ref. For workflow_dispatch: synthesize name.
+          name: ${{ github.event_name == 'workflow_dispatch' && format('skill-manager-v{0}', inputs.version) || github.ref_name }}
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && format('skill-manager-v{0}', inputs.version) || github.ref_name }}
           generate_release_notes: false
           # Pull in release-please's CHANGELOG section for this tag as the body.
           # Falls back to a minimal message if no body is attached.
