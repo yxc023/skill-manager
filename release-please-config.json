@@ -1,4 +1,5 @@
 {
+  "bootstrap-sha": "7b20490b9ac8f5bdf1683af72b1658ec5052f503",
   "packages": {
     ".": {
       "package-name": "skill-manager",
